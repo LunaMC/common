@@ -92,7 +92,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.fasterxml.jackson</pattern>
-                                    <shadedPattern>io.lunamc.plugins.common._shaded_</shadedPattern>
+                                    <shadedPattern>io.lunamc.plugins.common._shaded_.com.fasterxml.jackson</shadedPattern>
                                 </relocation>
                             </relocations>
                             <artifactSet>
