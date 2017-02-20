@@ -17,8 +17,10 @@
 package io.lunamc.common.host;
 
 import io.lunamc.common.login.session.Profile;
+import io.lunamc.common.network.AuthorizedConnection;
 import io.lunamc.common.network.Connection;
 import io.lunamc.common.network.InitializedConnection;
+import io.lunamc.common.play.PlayConnectionInitializer;
 import io.lunamc.common.status.StatusProvider;
 
 import java.util.Objects;
@@ -28,15 +30,18 @@ public class StaticVirtualHost implements VirtualHost {
 
     private final Predicate<InitializedConnection> matcher;
     private final StatusProvider statusProvider;
+    private final PlayConnectionInitializer playConnectionInitializer;
     private final boolean authenticated;
     private final VirtualHost.Compression compression;
 
     public StaticVirtualHost(Predicate<InitializedConnection> matcher,
                              StatusProvider statusProvider,
+                             PlayConnectionInitializer playConnectionInitializer,
                              boolean authenticated,
                              VirtualHost.Compression compression) {
         this.matcher = matcher != null ? matcher : t -> false;
         this.statusProvider = Objects.requireNonNull(statusProvider, "statusProvider must not be null");
+        this.playConnectionInitializer = Objects.requireNonNull(playConnectionInitializer, "playConnectionInitializer must not be null");
         this.authenticated = authenticated;
         this.compression = compression;
     }
@@ -49,6 +54,11 @@ public class StaticVirtualHost implements VirtualHost {
     @Override
     public StatusProvider getStatusProvider(Connection connection) {
         return statusProvider;
+    }
+
+    @Override
+    public PlayConnectionInitializer getPlayConnectionInitializer(AuthorizedConnection connection) {
+        return playConnectionInitializer;
     }
 
     @Override

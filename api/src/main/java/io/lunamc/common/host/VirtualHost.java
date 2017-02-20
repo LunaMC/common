@@ -17,8 +17,10 @@
 package io.lunamc.common.host;
 
 import io.lunamc.common.login.session.Profile;
+import io.lunamc.common.network.AuthorizedConnection;
 import io.lunamc.common.network.Connection;
 import io.lunamc.common.network.InitializedConnection;
+import io.lunamc.common.play.PlayConnectionInitializer;
 import io.lunamc.common.status.StatusProvider;
 
 import java.util.function.Predicate;
@@ -32,6 +34,8 @@ public interface VirtualHost {
     default StatusProvider getStatusProvider(InitializedConnection connection) {
         return getStatusProvider((Connection) connection);
     }
+
+    PlayConnectionInitializer getPlayConnectionInitializer(AuthorizedConnection connection);
 
     boolean isAuthenticated(InitializedConnection connection);
 
