@@ -61,6 +61,7 @@ public class VirtualHostConfigurationUtilsTest {
     @Test
     public void testCreateVirtualHost() throws Throwable {
         VirtualHostsConfiguration.VirtualHost source = new VirtualHostsConfiguration.VirtualHost();
+        source.setName("test");
         source.setPlayConnectionInitializer(createExternalConstructedClass(DemoPlayConnectionInitializer.class.getName(), "test-plugin"));
         source.setStatusProvider(createExternalConstructedClass(DemoStatusProvider.class.getName(), "test-plugin"));
         source.setAuthenticated(true);
@@ -78,6 +79,7 @@ public class VirtualHostConfigurationUtilsTest {
                 pluginManager
         );
 
+        Assert.assertEquals("test", result.getName());
         Predicate<InitializedConnection> predicate = result.getMatcher();
         Assert.assertNotNull(predicate);
         Assert.assertFalse(predicate.test(Mockito.mock(InitializedConnection.class)));

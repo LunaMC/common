@@ -18,15 +18,19 @@ package io.lunamc.common.host;
 
 import io.lunamc.common.network.InitializedConnection;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface VirtualHostManager {
+
+    Optional<VirtualHost> getVirtualHostByName(String name);
 
     void addHost(VirtualHost host);
 
     VirtualHost matchHost(InitializedConnection connection);
 
-    List<VirtualHost> getHosts();
+    Collection<VirtualHost> getHosts();
 
     VirtualHost getFallbackHost();
 

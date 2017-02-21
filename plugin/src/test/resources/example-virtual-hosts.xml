@@ -21,6 +21,7 @@
                                   http://lunamc.io/virtualhost-matcher/1.0 http://static.lunamc.io/xsd/virtualhost-matcher-1.0.xsd">
     <matchingVirtualHosts>
         <matchingVirtualHost>
+            <name>matching-1</name>
             <statusProvider impl="ExampleStatusProvider" plugin="luna-example" />
             <playConnectionInitializer impl="ExamplePlayConnectionInitializer" plugin="luna-example" />
             <authenticated>true</authenticated>
@@ -42,6 +43,7 @@
             </matchers>
         </matchingVirtualHost>
         <matchingVirtualHost>
+            <name>matching-2</name>
             <statusProvider impl="SomeStatusProvider" plugin="luna-example" />
             <playConnectionInitializer impl="SomePlayConnectionInitializer" plugin="luna-example" />
             <authenticated>false</authenticated>
@@ -53,6 +55,7 @@
         </matchingVirtualHost>
     </matchingVirtualHosts>
     <fallbackVirtualHost>
+        <name>fallback</name>
         <statusProvider impl="AnotherStatusProvider" plugin="luna-example" />
         <playConnectionInitializer impl="AnotherPlayConnectionInitializer" plugin="luna-example" />
         <authenticated>true</authenticated>

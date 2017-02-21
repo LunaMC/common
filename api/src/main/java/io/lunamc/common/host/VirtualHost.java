@@ -27,6 +27,8 @@ import java.util.function.Predicate;
 
 public interface VirtualHost {
 
+    String getName();
+
     Predicate<InitializedConnection> getMatcher();
 
     StatusProvider getStatusProvider(Connection connection);

@@ -18,10 +18,9 @@ package io.lunamc.common.host;
 
 import io.lunamc.common.network.InitializedConnection;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -30,9 +29,20 @@ import java.util.function.Predicate;
 
 public class DefaultVirtualHostManager implements VirtualHostManager {
 
-    private final List<VirtualHost> hosts = new LinkedList<>();
+    private final Map<String, VirtualHost> hosts = new LinkedHashMap<>();
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private VirtualHost fallbackHost;
+
+    @Override
+    public Optional<VirtualHost> getVirtualHostByName(String name) {
+        Lock lock = this.lock.readLock();
+        lock.lock();
+        try {
+            return Optional.ofNullable(hosts.get(name));
+        } finally {
+            lock.unlock();
+        }
+    }
 
     public VirtualHost getFallbackHost() {
         Lock lock = this.lock.readLock();
@@ -58,13 +68,17 @@ public class DefaultVirtualHostManager implements VirtualHostManager {
 
     @Override
     public void addHost(VirtualHost host) {
+        String name = host.getName();
         Lock lock = this.lock.writeLock();
         lock.lock();
+        VirtualHost previous;
         try {
-            hosts.add(host);
+            previous = hosts.putIfAbsent(name, host);
         } finally {
             lock.unlock();
         }
+        if (previous != null)
+            throw new IllegalStateException("There is already a virtual host named \"" + name + '"');
     }
 
     @Override
@@ -72,7 +86,7 @@ public class DefaultVirtualHostManager implements VirtualHostManager {
         Lock lock = this.lock.readLock();
         lock.lock();
         try {
-            Optional<VirtualHost> host = hosts.stream()
+            Optional<VirtualHost> host = hosts.values().stream()
                     .filter(virtualHost -> {
                         Predicate<InitializedConnection> matcher = virtualHost.getMatcher();
                         return matcher != null && matcher.test(connection);
@@ -85,11 +99,11 @@ public class DefaultVirtualHostManager implements VirtualHostManager {
     }
 
     @Override
-    public List<VirtualHost> getHosts() {
+    public Collection<VirtualHost> getHosts() {
         Lock lock = this.lock.readLock();
         lock.lock();
         try {
-            return Collections.unmodifiableList(new ArrayList<>(hosts));
+            return hosts.values();
         } finally {
             lock.unlock();
         }

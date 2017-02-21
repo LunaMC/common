@@ -47,6 +47,7 @@ public class VirtualHostConfigurationTest {
 
         VirtualHostsConfiguration.VirtualHost fallback = config.getFallbackVirtualHost();
         Assert.assertNotNull(fallback);
+        Assert.assertEquals("fallback", fallback.getName());
         VirtualHostsConfiguration.ExternalConstructedClass statusProvider = fallback.getStatusProvider();
         VirtualHostsConfiguration.ExternalConstructedClass playConnectionInitializer = fallback.getPlayConnectionInitializer();
         Assert.assertNotNull(statusProvider);
@@ -64,6 +65,7 @@ public class VirtualHostConfigurationTest {
         Assert.assertEquals(2, matchingVirtualHosts.size());
 
         VirtualHostsConfiguration.MatchingVirtualHost matchingVirtualHost = matchingVirtualHosts.get(0);
+        Assert.assertEquals("matching-1", matchingVirtualHost.getName());
         statusProvider = matchingVirtualHost.getStatusProvider();
         playConnectionInitializer = matchingVirtualHost.getPlayConnectionInitializer();
         Assert.assertNotNull(statusProvider);
@@ -95,6 +97,7 @@ public class VirtualHostConfigurationTest {
         Assert.assertEquals(-1, compression.getCompressionLevel());
 
         matchingVirtualHost = matchingVirtualHosts.get(1);
+        Assert.assertEquals("matching-2", matchingVirtualHost.getName());
         statusProvider = matchingVirtualHost.getStatusProvider();
         playConnectionInitializer = matchingVirtualHost.getPlayConnectionInitializer();
         Assert.assertNotNull(statusProvider);

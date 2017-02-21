@@ -36,6 +36,7 @@
 
     <complexType name="virtualHost">
         <sequence>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1" />
             <element name="statusProvider" type="v:externalConstructedClass" minOccurs="1" maxOccurs="1" />
             <element name="playConnectionInitializer" type="v:externalConstructedClass" minOccurs="1" maxOccurs="1" />
             <element name="authenticated" type="boolean" minOccurs="0" maxOccurs="1" />

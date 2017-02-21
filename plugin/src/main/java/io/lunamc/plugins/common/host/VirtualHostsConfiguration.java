@@ -71,6 +71,9 @@ public class VirtualHostsConfiguration {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class VirtualHost {
 
+        @XmlElement(name = "name", namespace = "http://lunamc.io/virtualhost/1.0")
+        private String name;
+
         @XmlElement(name = "statusProvider", namespace = "http://lunamc.io/virtualhost/1.0")
         private ExternalConstructedClass statusProvider;
 
@@ -82,6 +85,14 @@ public class VirtualHostsConfiguration {
 
         @XmlElement(name = "compression", namespace = "http://lunamc.io/virtualhost/1.0")
         private Compression compression;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
 
         public ExternalConstructedClass getStatusProvider() {
             return statusProvider;

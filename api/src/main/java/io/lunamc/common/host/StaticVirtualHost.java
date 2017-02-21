@@ -28,22 +28,30 @@ import java.util.function.Predicate;
 
 public class StaticVirtualHost implements VirtualHost {
 
+    private final String name;
     private final Predicate<InitializedConnection> matcher;
     private final StatusProvider statusProvider;
     private final PlayConnectionInitializer playConnectionInitializer;
     private final boolean authenticated;
     private final VirtualHost.Compression compression;
 
-    public StaticVirtualHost(Predicate<InitializedConnection> matcher,
+    public StaticVirtualHost(String name,
+                             Predicate<InitializedConnection> matcher,
                              StatusProvider statusProvider,
                              PlayConnectionInitializer playConnectionInitializer,
                              boolean authenticated,
                              VirtualHost.Compression compression) {
+        this.name = Objects.requireNonNull(name, "name must not be null");
         this.matcher = matcher != null ? matcher : t -> false;
         this.statusProvider = Objects.requireNonNull(statusProvider, "statusProvider must not be null");
         this.playConnectionInitializer = Objects.requireNonNull(playConnectionInitializer, "playConnectionInitializer must not be null");
         this.authenticated = authenticated;
         this.compression = compression;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

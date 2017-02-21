@@ -55,6 +55,7 @@ public class VirtualHostConfigurationUtils {
                                                 ServiceRegistry serviceRegistry,
                                                 PluginManager pluginManager) {
         return new StaticVirtualHost(
+                source.getName(),
                 source instanceof VirtualHostsConfiguration.MatchingVirtualHost ? createPredicate(matcherRegistry, ((VirtualHostsConfiguration.MatchingVirtualHost) source).getMatchers()) : t -> false,
                 createClass(StatusProvider.class, defaultClassLoader, source.getStatusProvider(), serviceRegistry, pluginManager),
                 createClass(PlayConnectionInitializer.class, defaultClassLoader, source.getPlayConnectionInitializer(), serviceRegistry, pluginManager),
