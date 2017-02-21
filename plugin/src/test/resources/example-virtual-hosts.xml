@@ -1,0 +1,60 @@
+<!--
+  ~  Copyright 2017 LunaMC.io
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<virtualHosts xmlns="http://lunamc.io/virtualhost/1.0"
+              xmlns:m="http://lunamc.io/virtualhost-matcher/1.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://lunamc.io/virtualhost/1.0 http://static.lunamc.io/xsd/virtualhost-1.0.xsd
+                                  http://lunamc.io/virtualhost-matcher/1.0 http://static.lunamc.io/xsd/virtualhost-matcher-1.0.xsd">
+    <matchingVirtualHosts>
+        <matchingVirtualHost>
+            <statusProvider impl="ExampleStatusProvider" plugin="luna-example" />
+            <playConnectionInitializer impl="ExamplePlayConnectionInitializer" plugin="luna-example" />
+            <authenticated>true</authenticated>
+            <compression>
+                <threshold>512</threshold>
+                <compressionLevel>-1</compressionLevel>
+            </compression>
+            <matchers>
+                <m:port>
+                    <m:port>25565</m:port>
+                </m:port>
+                <m:and>
+                    <m:matchers>
+                        <m:port>
+                            <m:port>25565</m:port>
+                        </m:port>
+                    </m:matchers>
+                </m:and>
+            </matchers>
+        </matchingVirtualHost>
+        <matchingVirtualHost>
+            <statusProvider impl="SomeStatusProvider" plugin="luna-example" />
+            <playConnectionInitializer impl="SomePlayConnectionInitializer" plugin="luna-example" />
+            <authenticated>false</authenticated>
+            <matchers>
+                <m:port>
+                    <m:port>25566</m:port>
+                </m:port>
+            </matchers>
+        </matchingVirtualHost>
+    </matchingVirtualHosts>
+    <fallbackVirtualHost>
+        <statusProvider impl="AnotherStatusProvider" plugin="luna-example" />
+        <playConnectionInitializer impl="AnotherPlayConnectionInitializer" plugin="luna-example" />
+        <authenticated>true</authenticated>
+    </fallbackVirtualHost>
+</virtualHosts>
