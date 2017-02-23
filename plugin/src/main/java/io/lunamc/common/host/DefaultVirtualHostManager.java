@@ -38,6 +38,8 @@ public class DefaultVirtualHostManager implements VirtualHostManager {
         Lock lock = this.lock.readLock();
         lock.lock();
         try {
+            if (fallbackHost != null && name.equals(fallbackHost.getName()))
+                return Optional.of(fallbackHost);
             return Optional.ofNullable(hosts.get(name));
         } finally {
             lock.unlock();
